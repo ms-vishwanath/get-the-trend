@@ -1,0 +1,25 @@
+{
+  "name": "get-the-trend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js",
+    "start": "node index.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "apify": "^3.4.2",
+    "axios": "^1.9.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "instagram-scraping": "^1.0.17",
+    "nodemon": "^3.1.10",
+    "telegraf": "^4.16.3"
+  }
+}
