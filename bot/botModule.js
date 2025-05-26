@@ -4,8 +4,9 @@ import getPosts from "../lib/utils.js";
 const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 
 bot.start((ctx) =>
-  ctx.reply("Hi! Just send me a topic like 'travel' or 'food' and I’ll fetch top 10 Instagram posts.")
+  ctx.reply("Hi! Just send me a topic like 'travel' or 'food' and It fetches recent 5 Instagram posts.")
 );
+
 function cleanText(text) {
   if (!text) return "";
   return text
