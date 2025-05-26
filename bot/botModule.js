@@ -6,6 +6,13 @@ const bot = new Telegraf(process.env.TELEGRAM_BOT_TOKEN);
 bot.start((ctx) =>
   ctx.reply("Hi! Just send me a topic like 'travel' or 'food' and I’ll fetch top 10 Instagram posts.")
 );
+function cleanText(text) {
+  if (!text) return "";
+  return text
+    .normalize("NFKC")
+    .replace(/[\u0000-\u0008\u000B\u000C\u000E-\u001F\u007F]+/g, '')
+    .trim();
+}
 
 bot.on("text", async (ctx) => {
   const keyword = ctx.message.text.trim();
@@ -14,7 +21,6 @@ bot.on("text", async (ctx) => {
     return ctx.reply("Please send a valid topic.");
   }
 
-  // Send an immediate reply before scraping
   await ctx.reply(`Scraping Instagram posts for "${keyword}"...`);
 
   try {
@@ -24,8 +30,10 @@ bot.on("text", async (ctx) => {
       return ctx.reply("No posts found for that keyword.");
     }
 
-    const replyMessage = posts.slice(0, 11).map((post, index) => {
-      return `${index + 1}. ${post.url}\n📄 ${post.caption?.slice(0, 80) || "No caption"}...`;
+    const replyMessage = posts.map((post, index) => {
+      const url = cleanText(post.url);
+      const caption = cleanText(post.caption);
+      return `${index + 1}. ${url}\n📄 ${caption.slice(0, 80) || "No caption"}...`;
     }).join("\n\n");
 
     return ctx.reply(replyMessage);
@@ -34,6 +42,7 @@ bot.on("text", async (ctx) => {
     return ctx.reply("Something went wrong while fetching Instagram posts.");
   }
 });
+
 
 bot.launch();
 console.log("BOT IS RUNNING");
